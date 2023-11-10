@@ -4,4 +4,9 @@ async function getAllUsers(pageSize, page){
     return users.getAllUsers(pageSize, page);
 }
 
-module.exports = {getAllUsers};
+async function addUser(user){    
+    return users.addUser(user);
+}
+
+
+module.exports = {getAllUsers, addUser};
