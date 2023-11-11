@@ -1,6 +1,6 @@
- const { ObjectId } = require('mongodb');
- const conn = require('./conn');
- const DATABASE = 'sample_mflix';
+const { ObjectId } = require('mongodb');
+const conn = require('./conn');
+const DATABASE = 'sample_mflix';
 const USERS = 'users';
 const bcrypt = require('bcrypt');
 const Jwt = require('jsonwebtoken');
@@ -15,17 +15,15 @@ const Jwt = require('jsonwebtoken');
      return users;
  }
 
-
-
-
-
-
-
-
 async function findByCredentials(email, password){
+    console.log('llega????????');
     const connection = await conn.getConnection();
 
-    const user = await connection.db(DATABSE).collection(USERS).findOne({email: email});
+    const user = await connection
+                        .db(DATABASE)
+                        .collection(USERS)
+                        .findOne({ email });
+
     // TODO: Sacar mesajes reveladores
     if(!user){
         throw new Error("Usuario no encontrado");
