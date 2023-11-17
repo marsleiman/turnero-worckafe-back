@@ -3,7 +3,6 @@ const conn = require('./conn');
 const DATABASE = 'sample_mflix';
 const BOOKINGS = 'reservas';
 
-
 async function getAllBookings(pageSize, page){
     const connectiondb = await conn.getConnection();
     const bookings = await connectiondb
@@ -23,9 +22,10 @@ async function addBooking(booking){
 }
 
 async function deleteBooking(_id) {
+    console.log("Se eliminó la reserva con id");
     const connection = await conn.getConnection();
-    await connection.db(DATABASE).collection(BOOKINGS).deleteOne({_id});
-    console.log("Se eliminó la reserva con id" , _id);
+    const result = await connection.db(DATABASE).collection(BOOKINGS).deleteOne({'_id': new ObjectId(_id)});
+    console.log('result', result);
 }
 
 
