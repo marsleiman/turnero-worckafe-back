@@ -1,14 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const controller = require('../controllers/bookings');
+const auth = require('../middleware/auth');
 
-// router.get('/hola'), async(req, res) => {
-//   console.log("hola");
-//   res.send(await controller.deleteBooking(req.params.id));
-// }
-
-router.delete('/delete/:id', async (req, res) => {
-  console.log('-------------');
+router.delete('/delete/:id', auth, async (req, res) => {
   res.send(await controller.deleteBooking(req.params.id));
 });
 
@@ -18,7 +13,7 @@ router.get('/', async (req, res) => {
     res.json(await controller.getAllBookings(pageSize, page));
 });
 
-router.post('/create/', async(req, res) => {
+router.post('/create/', auth, async(req, res) => {
     try {
       const newBooking = req.body;
       const result = await controller.addBooking(newBooking);
