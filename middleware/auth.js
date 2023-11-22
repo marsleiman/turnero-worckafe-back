@@ -5,8 +5,7 @@ const auth = async (req, res, next) => {
     const token = req.header("Token");
     console.log('TOKE_----', token);
     console.log('process.env.CLAVE_SECRETA----', process.env.CLAVE_SECRETA);
-    // Jwt.verify(token, process.env.CLAVE_SECRETA);
-    console.log('averaveraveraver', Jwt.verify(token, process.env.CLAVE_SECRETA));
+    Jwt.verify(token, process.env.CLAVE_SECRETA);
     next();
   } catch (error) {
     res.status(401).send({ error: error.message });

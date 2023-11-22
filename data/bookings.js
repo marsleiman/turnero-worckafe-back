@@ -32,18 +32,40 @@ async function addBooking(booking){
 
 async function deleteBooking(_id) {
     const connection = await conn.getConnection();
-    await connection.db(DATABASE).collection(BOOKINGS).deleteOne({'_id': new ObjectId(_id)});
+    try {
+        await connection.db(DATABASE).collection(BOOKINGS).deleteOne({'_id': new ObjectId(_id)});
+        return console.log('borrado');
+    } catch (error) {
+        console.error("No hay reservas para este cliente:", error);
+    }
+}
+
+async function findBookingForId(_id) {
+    const connection = await conn.getConnection();
+    try {
+        const result = await connection
+            .db(DATABASE)
+            .collection(BOOKINGS)
+            .findOne({'_id': new ObjectId(_id)})
+        return result;
+    } catch (error) {
+        console.error("No hay reservas para este Id:", error);
+    }
 }
 
 async function findBookingForCreateId(_id) {
     const connection = await conn.getConnection();
-    const findOneQuery = { _id: new ObjectId(_id) };
-    const result = await connection
-        .db(DATABASE)
-        .collection(BOOKINGS)
-        .findOne({_id});
-        console.log('---------------------', result);
-    return result;
+    const user_id = new ObjectId(_id);
+    try {
+        const result = await connection
+            .db(DATABASE)
+            .collection(BOOKINGS)
+            .find({ 'user_id': _id })
+            .toArray();
+        return result;
+    } catch (error) {
+        console.error("No hay reservas para este cliente:", error);
+    }
 }
 
-module.exports = {getAllBookings, addBooking, deleteBooking, findBookingForCreateId};
+module.exports = {getAllBookings, addBooking, deleteBooking, findBookingForCreateId, findBookingForId};
