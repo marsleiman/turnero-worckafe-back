@@ -15,18 +15,35 @@ async function getAllBookings(pageSize, page){
 
 
 async function addBooking(booking){
-  
     const connection = await conn.getConnection();
-    const result = await connection.db(DATABASE).collection(BOOKINGS).insertOne(booking);
+    console.log('db user_id', booking.user_id);
+    const newBooking = {
+        dia: booking.dia,
+        user_id: booking.user_id,
+        room_id: booking.room_id,
+        capacity: booking.capacity
+    }
+    const result = await connection
+        .db(DATABASE)
+        .collection(BOOKINGS)
+        .insertOne(newBooking);
     return result;
 }
 
 async function deleteBooking(_id) {
-    console.log("Se eliminó la reserva con id");
     const connection = await conn.getConnection();
-    const result = await connection.db(DATABASE).collection(BOOKINGS).deleteOne({'_id': new ObjectId(_id)});
-    console.log('result', result);
+    await connection.db(DATABASE).collection(BOOKINGS).deleteOne({'_id': new ObjectId(_id)});
 }
 
+async function findBookingForCreateId(_id) {
+    const connection = await conn.getConnection();
+    const findOneQuery = { _id: new ObjectId(_id) };
+    const result = await connection
+        .db(DATABASE)
+        .collection(BOOKINGS)
+        .findOne({_id});
+        console.log('---------------------', result);
+    return result;
+}
 
-module.exports = {getAllBookings, addBooking, deleteBooking};
+module.exports = {getAllBookings, addBooking, deleteBooking, findBookingForCreateId};

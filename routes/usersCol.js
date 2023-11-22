@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const controller = require('../controllers/users');
+const validateUser = require('../schemas/userSchema')
 
 router.get('/', async (req, res) => {
     const pageSize = req.query.pageSize ? parseInt(req.query.pageSize): 0;
@@ -11,7 +12,7 @@ router.get('/', async (req, res) => {
 
 router.post('/register/', async(req, res) => {
     try {
-      const newUser = req.body;
+      const newUser = validateUser(req.body);
       const result = await controller.addUser(newUser);
       res.send(result);
     } catch (error) {
@@ -23,12 +24,15 @@ router.post('/register/', async(req, res) => {
 router.post('/login/', async (req, res) =>{
   console.log('a ver el body', req.body);
     try {
-      const user = await controller.findByCredentials(req.body.email, req.body.password);
+      const user = await controller.findByCredentials(
+        req.body.email,
+        req.body.password
+      );
       console.log('user', user);
+
       const token = await controller.generateAuthToken(user);
+
       res.send({token})
-  
-  
     } catch (error) {
       res.status(401).send("Autenticación fallida")
     }

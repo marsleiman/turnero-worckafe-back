@@ -1,11 +1,17 @@
-import Jwt from "jsonwebtoken";
+const Jwt = require('jsonwebtoken');
 
-export default async function auth(req, res, next) {
+const auth = async (req, res, next) => {
   try {
     const token = req.header("Token");
-    Jwt.verify(token, process.env.CLAVE_SECRETA);
+    console.log('TOKE_----', token);
+    console.log('process.env.CLAVE_SECRETA----', process.env.CLAVE_SECRETA);
+    // Jwt.verify(token, process.env.CLAVE_SECRETA);
+    console.log('averaveraveraver', Jwt.verify(token, process.env.CLAVE_SECRETA));
     next();
   } catch (error) {
     res.status(401).send({ error: error.message });
   }
 }
+
+
+module.exports = { auth };

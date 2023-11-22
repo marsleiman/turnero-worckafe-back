@@ -13,4 +13,8 @@ async function deleteBooking(id) {
     return bookings.deleteBooking(id);
 }
 
-module.exports = {getAllBookings, addBooking,deleteBooking};
+async function findBookingForCreateId(_id) {
+    return bookings.findBookingForCreateId(_id);
+}
+
+module.exports = {getAllBookings, addBooking, deleteBooking, findBookingForCreateId};

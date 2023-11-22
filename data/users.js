@@ -16,9 +16,7 @@ const Jwt = require('jsonwebtoken');
  }
 
 async function findByCredentials(email, password){
-    console.log('llega????????');
     const connection = await conn.getConnection();
-
     const user = await connection
                         .db(DATABASE)
                         .collection(USERS)
@@ -39,7 +37,13 @@ async function findByCredentials(email, password){
 }
 
 function generateAuthToken(user){
-    const token = Jwt.sign({_id: user._id, email: user.email, username: user.username}, "clavesecreta");
+    const token = Jwt.sign(
+        {
+            _id: user._id,
+            email: user.email,
+            username: user.username
+        }, process.env.CLAVE_SECRETA
+    );
     return token;
 }
 
