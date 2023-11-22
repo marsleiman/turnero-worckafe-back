@@ -8,10 +8,6 @@ async function addUser(user){
     return users.addUser(user);
 }
 
-async function loginUser(user){    
-    return users.loginUser(user);
-}
-
 async function findByCredentials(email, password){    
     return users.findByCredentials(email, password);
 }
@@ -21,4 +17,4 @@ async function generateAuthToken(user){
 }
 
 
-module.exports = {getAllUsers, addUser, loginUser, findByCredentials, generateAuthToken};
+module.exports = {getAllUsers, addUser, findByCredentials, generateAuthToken};

@@ -37,13 +37,7 @@ async function findByCredentials(email, password){
 }
 
 function generateAuthToken(user){
-    const token = Jwt.sign(
-        {
-            _id: user._id,
-            email: user.email,
-            username: user.username
-        }, process.env.CLAVE_SECRETA
-    );
+    const token = Jwt.sign({_id: user._id, email: user.email, username: user.username}, process.env.CLAVE_SECRETA);
     return token;
 }
 

@@ -21,17 +21,12 @@ router.post('/register/', async(req, res) => {
     }
   });
 
-router.post('/login/', async (req, res) =>{
+router.post('/login/', async (req, res) => {
   console.log('a ver el body', req.body);
     try {
-      const user = await controller.findByCredentials(
-        req.body.email,
-        req.body.password
-      );
-      console.log('user', user);
-
+      const user = await controller.findByCredentials(req.body.email, req.body.password);
       const token = await controller.generateAuthToken(user);
-
+      console.log('token', token);
       res.send({token})
     } catch (error) {
       res.status(401).send("Autenticación fallida")
