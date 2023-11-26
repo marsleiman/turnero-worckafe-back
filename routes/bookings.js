@@ -11,10 +11,10 @@ router.delete("/delete/:id", auth, async (req, res) => {
     const resultForId = await controller.findBookingForId(req.params.id);
     if (resultForId && resultForId.user_id === user_id) {
       await controller.deleteBooking(req.params.id);
-      res.render("index", { title: "BORRADO" });
+      res.sendStatus(204);
     } else {
       console.log("El ID no coincide o no hay reservas");
-      res.status(404);
+      res.sendStatus(404);
     }
   } catch (error) {
     console.log(error);
