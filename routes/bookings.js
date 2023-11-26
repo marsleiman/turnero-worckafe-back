@@ -23,7 +23,13 @@ router.delete("/delete/:id", auth, async (req, res) => {
 });
 
 router.get("/find/:id", auth, async (req, res) => {
-  res.json(await controller.findBookingForId(req.params.id));
+  try {
+    const result = (await controller.findBookingForId(req.params.id));
+    res.send(result);
+  } catch (error) {
+    console.log(error);
+    res.status(400).send(error);
+  }
 });
 
 router.get("/find-for-user", auth, async (req, res) => {
